@@ -1,0 +1,10 @@
+<div class="login-screen">
+  <div *ngIf="currentUser|async">
+    You are logged in as {{(currentUser|async)?.name}}
+  </div>
+
+  <div *ngIf="!(currentUser|async)">
+    <p>Please, log in into the application</p>
+    <button (click)="login()" [attr.disabled]="isLoggingIn || undefined">Log in</button>
+  </div>
+</div>
