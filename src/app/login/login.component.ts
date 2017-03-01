@@ -5,7 +5,9 @@ import 'rxjs/add/observable/timer';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/toPromise';
-import { Store, User, LoginAction } from '../store';
+
+import { Store, User, LoginAction, NotAuthorizedAction, AppState } from '../store';
+import { UserService } from '../user.service';
 
 @Component({
   selector: 'app-login',
@@ -16,19 +18,23 @@ export class LoginComponent {
   isLoggingIn = false;
   currentUser: Observable<User>;
 
-  constructor(private store: Store<Map<string, any>>) {
-    this.currentUser = store.select<User>('currentUser');
+  constructor(private store: Store<AppState>, private userService: UserService) {
+    this.currentUser = userService.currentUser;
+    this.currentUser.subscribe(i => console.log(i));
+
+    this.store.dispatch(new NotAuthorizedAction());
   }
 
-  login(): void {
+  startLogin(): void {
     this.isLoggingIn = true;
-    Observable.timer(1000).take(1).do(() => {
-      this.store.dispatch(new LoginAction({
-        id: 'qwerty',
-        name: 'User McUserface'
-      }))
-    }).toPromise().then(() => {
-      this.isLoggingIn = false;
-    });
+    setTimeout(this.completeLogin.bind(this, {
+      id: 'qwerty',
+      name: 'User McUserface'
+    }), 1000);
+  }
+
+  completeLogin(user: User): void {
+    this.store.dispatch(new LoginAction(user));
+    this.isLoggingIn = false;
   }
 }

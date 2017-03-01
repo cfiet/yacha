@@ -1,7 +1,8 @@
 import { Action as StoreAction } from '@ngrx/store';
 
 export type ActionType =
-  'SYSTEM_LOGIN' | 'SYSTEM_LOGOUT';
+  'LOGIN' | 'LOGOUT' | 'NOT_AUTHORIZED' |
+  'CONVERATION_CREATE' | 'CONVERSATION_USER_JOINED' | 'CONVERSATION_USER_LEFT';
 
 export abstract class Action<Payload> implements StoreAction {
   constructor(public type: ActionType, public payload?: Payload) {

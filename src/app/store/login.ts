@@ -1,18 +1,31 @@
-import { Reducer } from '@ngrx/store';
-import { Map } from 'immutable';
-import { User } from './state';
-import { ActionType, Action, createAction } from './actions';
+import { User, UserId, UsersData } from './state';
+import { Action, createAction } from './actions';
 
-export const LoginAction = createAction<User>('SYSTEM_LOGIN');
-export const LogoutAction = createAction<void>('SYSTEM_LOGOUT');
+export const LoginAction = createAction<User>('LOGIN');
+export const LogoutAction = createAction<void>('LOGOUT');
+export const NotAuthorizedAction = createAction<void>('NOT_AUTHORIZED');
 
-export function loginReducer(state: User, action: Action<any>) {
+export function usersLoginReducer(state: UsersData, action: Action<any>): UsersData {
   if (LoginAction.is(action)) {
-    return action.payload;
+    return Object.assign({}, state, {
+      [action.payload.id]: action.payload
+    });
+  }
+
+  return state;
+}
+
+export function currentUserLoginReducer(state: UserId, action: Action<any>): UserId {
+  if (LoginAction.is(action)) {
+    return action.payload.id;
   }
 
   if (LogoutAction.is(action)) {
-    return undefined;
+    return null;
+  }
+
+  if (NotAuthorizedAction.is(action)) {
+    return null;
   }
 
   return state;

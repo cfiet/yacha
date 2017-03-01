@@ -6,6 +6,7 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 
 import { store } from './store';
+import { UserService } from './user.service';
 import { LoginComponent } from './login/login.component';
 
 @NgModule({
@@ -18,6 +19,9 @@ import { LoginComponent } from './login/login.component';
     FormsModule,
     HttpModule,
     store
+  ],
+  providers: [
+    UserService
   ],
   bootstrap: [AppComponent]
 })
