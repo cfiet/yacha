@@ -1,32 +1,39 @@
 import { User, UserId, UsersData } from './state';
-import { Action, createAction } from './actions';
+import { ActionType, Action } from './actions';
 
-export const LoginAction = createAction<User>('LOGIN');
-export const LogoutAction = createAction<void>('LOGOUT');
-export const NotAuthorizedAction = createAction<void>('NOT_AUTHORIZED');
-
-export function usersLoginReducer(state: UsersData, action: Action<any>): UsersData {
-  if (LoginAction.is(action)) {
-    return Object.assign({}, state, {
-      [action.payload.id]: action.payload
-    });
-  }
-
-  return state;
+export interface LoginState {
+  readonly user: any;
+  readonly checking: boolean;
+  readonly failReason: string;
 }
 
-export function currentUserLoginReducer(state: UserId, action: Action<any>): UserId {
-  if (LoginAction.is(action)) {
-    return action.payload.id;
-  }
+const initialState: LoginState = {
+  user: undefined,
+  checking: false,
+  failReason: undefined,
+};
 
-  if (LogoutAction.is(action)) {
-    return null;
-  }
+export function loginReducer(state: LoginState = initialState, action: Action): LoginState {
+  switch(action.type) {
+    case ActionType.LOGIN_CHECK_USER:
+      return { user: undefined, checking: true, failReason: undefined };
 
-  if (NotAuthorizedAction.is(action)) {
-    return null;
-  }
+    case ActionType.LOGIN_REQUIRE:
+      return { user: undefined, checking: false, failReason: undefined };
 
-  return state;
+    case ActionType.LOGIN_START:
+      return { user: undefined, checking: true, failReason: undefined };
+
+    case ActionType.LOGIN_SUCCESS:
+      return { user: action.payload, checking: false, failReason: undefined };
+
+    case ActionType.LOGIN_FAILED:
+      return { user: undefined, checking: false, failReason: action.payload };
+
+    case ActionType.LOGOUT:
+      return {user: undefined, checking: false, failReason: undefined };
+
+    default:
+      return state;
+  }
 }

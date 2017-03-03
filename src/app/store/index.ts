@@ -1,22 +1,14 @@
-import { StoreModule, Reducer, combineReducers } from '@ngrx/store';
-export { Store } from '@ngrx/store';
+import { StoreModule } from '@ngrx/store';
 
-import { currentUserLoginReducer, usersLoginReducer } from './login';
-export * from './login';
+export * from './actions';
 
-import { AppState } from './state';
-export * from './state';
+import { LoginState, loginReducer as login } from './login';
+export { LoginState } from './login';
 
+export interface AppState {
+  login: LoginState;
+}
 
-export const store = StoreModule.provideStore(
-  {
-    currentUser: currentUserLoginReducer,
-    users: usersLoginReducer
-  },
-  <AppState> {
-    currentUser: undefined,
-    users: {},
-    currentConversation: undefined,
-    conversations: {}
-  }
-);
+export const store =  StoreModule.provideStore({
+  login
+});

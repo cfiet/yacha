@@ -1,40 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Map } from 'immutable';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/timer';
-import 'rxjs/add/operator/do';
-import 'rxjs/add/operator/take';
-import 'rxjs/add/operator/toPromise';
 
-import { Store, User, LoginAction, NotAuthorizedAction, AppState } from '../store';
-import { UserService } from '../user.service';
+import { Action, LoginState, loginStart, logout } from '../store';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
-  isLoggingIn = false;
-  currentUser: Observable<User>;
+  @Input()
+  login: LoginState;
 
-  constructor(private store: Store<AppState>, private userService: UserService) {
-    this.currentUser = userService.currentUser;
-    this.currentUser.subscribe(i => console.log(i));
+  @Output()
+  action: EventEmitter<Action> = new EventEmitter<Action>();
 
-    this.store.dispatch(new NotAuthorizedAction());
+  startGoogleLogin(): void {
+    this.action.emit(loginStart());
   }
 
-  startLogin(): void {
-    this.isLoggingIn = true;
-    setTimeout(this.completeLogin.bind(this, {
-      id: 'qwerty',
-      name: 'User McUserface'
-    }), 1000);
-  }
-
-  completeLogin(user: User): void {
-    this.store.dispatch(new LoginAction(user));
-    this.isLoggingIn = false;
+  logout(): void {
+    this.action.emit(logout());
   }
 }
