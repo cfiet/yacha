@@ -1,0 +1,15 @@
+{{state$ | async}}
+
+<ng-container [ngSwitch]="state$ | async">
+  <div *ngSwitchCase="loading">
+    Loading avaliable rooms
+  </div>
+
+  <div *ngSwitchCase="failed">
+    Failed to load the list of rooms: {{(rooms$ | async)?.failReason}}
+  </div>
+
+  <div *ngSwitchDefault>
+    {{rooms$ | async | json}}
+  </div>
+</ng-container>
