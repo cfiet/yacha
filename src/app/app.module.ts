@@ -5,12 +5,15 @@ import { HttpModule } from '@angular/http';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
+import { RouterStoreModule } from '@ngrx/router-store';
 
 import { AppComponent } from './app.component';
 
 import { store } from './store';
 import { firebaseEffects, firebaseModule } from './firebase';
-import { LoginComponent } from './login/login.component';
+import { appRoutes } from './app.routes';
+import { LoginModule } from './login';
+import { RoomsComponent } from './rooms';
 
 export function instrumentOptions() {
   return {
@@ -21,17 +24,20 @@ export function instrumentOptions() {
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    RoomsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
+    LoginModule,
     StoreDevtoolsModule.instrumentStore(instrumentOptions),
     StoreLogMonitorModule,
+    RouterStoreModule.connectRouter(),
     firebaseModule,
     firebaseEffects,
     store,
+    appRoutes
   ],
   providers: [
   ],

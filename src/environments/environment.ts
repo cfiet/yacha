@@ -4,5 +4,14 @@
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  firebase: {
+    apiKey: 'AIzaSyBeJqRquGGuDBjaQurOmkwbaLJVroMPlJ4',
+    authDomain: 'yacha-staging.firebaseapp.com',
+    databaseURL: 'https://yacha-staging.firebaseio.com',
+    storageBucket: 'yacha-staging.appspot.com',
+    messagingSenderId: '443471707958',
+    defaultAuthProvider: 3, // Google
+    defaultAuthMethod: 1 // Redirect
+  }
 };

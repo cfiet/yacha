@@ -5,17 +5,19 @@ import { AuthConfiguration } from 'angularfire2/auth';
 
 import { FirebaseEffects } from './effects';
 
+import { environment } from '../../environments/environment';
+
 const appConfig: FirebaseAppConfig = {
-  apiKey: 'AIzaSyDhUQeQ021xBMX-hK-R0kth92ExL33ztpU',
-  authDomain: 'game-of-giff.firebaseapp.com',
-  databaseURL: 'https://game-of-giff.firebaseio.com',
-  storageBucket: 'game-of-giff.appspot.com',
-  messagingSenderId: '211117234885'
+  apiKey: environment.firebase.apiKey,
+  authDomain: environment.firebase.authDomain,
+  databaseURL: environment.firebase.databaseURL,
+  storageBucket: environment.firebase.storageBucket,
+  messagingSenderId: environment.firebase.messagingSenderId
 };
 
 const authConfig: AuthConfiguration = {
-  provider: AuthProviders.Google,
-  method: AuthMethods.Redirect
+  provider: environment.firebase.defaultAuthProvider,
+  method: environment.firebase.defaultAuthMethod
 };
 
 export const firebaseModule = AngularFireModule.initializeApp(appConfig, authConfig);

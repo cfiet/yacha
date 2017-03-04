@@ -2,26 +2,28 @@ import { Component, OnInit, ChangeDetectionStrategy, Input, Output, EventEmitter
 import { Map } from 'immutable';
 import { Observable } from 'rxjs/Observable';
 
-import { Action, LoginState, loginStart, logout } from '../store';
+import { Store, checkUser, AppState } from '../store';
 
 @Component({
   selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  template: `
+    <app-login-screen *ngIf="login$|async"
+      [login]="login$|async"
+      (action)="store.dispatch($event)"
+    ></app-login-screen>
+  `,
+  styles: [`
+    :host {
+      display: box;
+      width: 100vw;
+      height: 100vh;
+    }
+  `]
 })
 export class LoginComponent {
-  @Input()
-  login: LoginState;
+  login$ = this.store.select(i => i.login);
 
-  @Output()
-  action: EventEmitter<Action> = new EventEmitter<Action>();
-
-  startGoogleLogin(): void {
-    this.action.emit(loginStart());
-  }
-
-  logout(): void {
-    this.action.emit(logout());
+  constructor(public store: Store<AppState>) {
+    store.dispatch(checkUser());
   }
 }
