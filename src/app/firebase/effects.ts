@@ -6,6 +6,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/delay';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 
@@ -38,9 +39,11 @@ export class FirebaseEffects {
   );
 
   @Effect()
-  redirectAfterLogin$ = this.actions$.ofType(ActionType.LOGIN_SUCCESS).map(() =>
-    go('/rooms')
-  );
+  redirectAfterLogin$ = this.actions$.ofType(ActionType.LOGIN_SUCCESS)
+    .delay(1500)
+    .map(() =>
+      go('/chat')
+    );
 
   @Effect()
   loadRooms = this.actions$.ofType(ActionType.ROOMS_LOAD).mergeMap(() =>

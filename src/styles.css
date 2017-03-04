@@ -1,9 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,400italic';
+@import '~@angular/material/core/theming/prebuilt/deeppurple-amber.css';
+
 html,
 body {
   width: 100vw;
   height: 100vh;
   margin: 0px;
+  font-family: Roboto, Helvetica Neue, sans-serif;
 
   background-color: rgb(248, 248, 248);
+}
+
+body.overlay app-root::after {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 100vh;
+  font-size: 28pt;
+  font-weight: 200;
+
+  transition: all 100ms ease-in;
+}
+
+body.overlay.loading app-root::after {
+  background-color: rgba(0, 0, 0, 0.3);
+  content: 'Loading...'
+}
+
+body.overlay.failed app-root::after {
+  background-color: rgba(180, 80, 80, 0.6);
+  color: rgb(180, 20, 20);
+  content: 'Oops, that\'s embarrassing 😅';
 }

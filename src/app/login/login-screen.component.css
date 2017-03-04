@@ -9,18 +9,21 @@
   justify-content: center;
 }
 
-:host > .login-screen {
-  padding: 100px 20px 20px 20px;
+md-spinner {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
-  min-width: 300px;
-  min-height: 300px;
-
-  max-width: 500px;
-  max-height: 500px;
-
-  box-shadow: 1px 1px 3px 3px rgba(0, 0, 0, 0.1);
-
+md-card-actions {
   text-align: center;
+}
 
-  background-color: rgb(255, 255, 255);
+img.avatar {
+  display: block;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }

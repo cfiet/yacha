@@ -23,5 +23,7 @@ import { AppState, checkUser } from './store';
 export class AppComponent {
   login$ = this.store.select(i => i.login);
 
-  constructor(public store: Store<AppState>) { }
+  constructor(public store: Store<AppState>) {
+    store.dispatch(checkUser());
+  }
 }

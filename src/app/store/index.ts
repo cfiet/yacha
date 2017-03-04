@@ -3,6 +3,7 @@ import { routerReducer as router, RouterState } from '@ngrx/router-store';
 import { LoginState, loginReducer as login } from './login';
 import { RoomsState, roomsReducer as rooms } from './rooms';
 
+export * from './data';
 export * from './actions';
 export { Store } from '@ngrx/store';
 export { LoginState } from './login';

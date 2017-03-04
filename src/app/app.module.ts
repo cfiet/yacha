@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { MaterialModule } from '@angular/material';
 
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { StoreLogMonitorModule, useLogMonitor } from '@ngrx/store-log-monitor';
@@ -13,24 +14,25 @@ import { store } from './store';
 import { firebaseEffects, firebaseModule } from './firebase';
 import { appRoutes } from './app.routes';
 import { LoginModule } from './login';
-import { RoomsComponent } from './rooms';
+import { ChatModule } from './chat';
 
 export function instrumentOptions() {
   return {
-    monitor: useLogMonitor({  visible: true, position: 'right' })
+    monitor: useLogMonitor({  visible: false, position: 'right' })
   };
 }
 
 @NgModule({
   declarations: [
-    AppComponent,
-    RoomsComponent
+    AppComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpModule,
     LoginModule,
+    ChatModule,
+    MaterialModule,
     StoreDevtoolsModule.instrumentStore(instrumentOptions),
     StoreLogMonitorModule,
     RouterStoreModule.connectRouter(),
