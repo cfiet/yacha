@@ -24,6 +24,13 @@ export const roomsReducer = (state: RoomsState = initialState, action: Action): 
 
     case ActionType.ROOMS_LOAD_SUCCESS:
       return Object.assign({}, state, { loading: false, rooms: action.payload });
+    
+    case ActionType.ROOM_CREATED:
+      return Object.assign({}, state, {
+        rooms: Object.assign({}, state.rooms, {
+          [action.payload.$id]: action.payload
+        })
+      });
 
     default:
       return state;

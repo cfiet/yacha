@@ -11,19 +11,23 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/of';
 
 import { go } from '@ngrx/router-store';
-import { ActionType,
+import { Store,
+         AppState,
+         ActionType,
          loginSuccess,
          loginRequired,
          loginFailed,
          loadRoomsCompleted,
-         loadRoomsFailed
+         loadRoomsFailed,
+         roomCreated,
+         Room
        } from '../store';
 
 @Injectable()
 export class FirebaseEffects {
   @Effect()
   checkAuth$ = this.actions$.ofType(ActionType.LOGIN_CHECK_USER).mergeMap(() =>
-      this.af.auth.take(1).map(user => 
+      this.af.auth.take(1).map(user =>
         !user ? loginRequired() : loginSuccess(user.auth)
       )
   );
@@ -58,8 +62,36 @@ export class FirebaseEffects {
     )
   );
 
+  @Effect()
+  createRoom = this.actions$.ofType(ActionType.ROOM_CREATE).mergeMap(a =>
+    this.af.database.list('/rooms').push({
+      title: a.payload.title,
+      isPublic: !!a.payload.isPublic,
+      createdAt: database.ServerValue.TIMESTAMP,
+      ops: {
+        [this.currentUser.uid]: true
+      },
+      users: {
+        [this.currentUser.uid]: {
+          uid: this.currentUser.uid,
+          displayName: this.currentUser.displayName,
+          photoURL: this.currentUser.photoURL
+        }
+      }
+    }).then(r =>
+      roomCreated(r)
+    )
+  );
+
+  currentUser: any;
+
   constructor(
     private actions$: Actions,
-    private af: AngularFire
-  ) { }
+    private af: AngularFire,
+    private store: Store<AppState>
+  ) { 
+    store.subscribe(state => {
+      this.currentUser = state.login && state.login.user;
+    })
+  }
 }

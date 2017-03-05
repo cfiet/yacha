@@ -9,7 +9,8 @@ import { Store, AppState, loadRooms, User, RoomHeader } from '../store';
 
     <md-spinner *ngIf="loadingRooms$ | async"></md-spinner>
 
-    <app-chat-rooms-list *ngIf="!(loadingRooms$ | async)" [rooms]="rooms$ | async"></app-chat-rooms-list>
+    <app-chat-rooms-list *ngIf="!(loadingRooms$ | async)" [rooms]="rooms$ | async" (action)="store.dispatch($event)">
+    </app-chat-rooms-list>
   `,
   styles: [`
     :host {

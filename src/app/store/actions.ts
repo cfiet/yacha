@@ -16,6 +16,7 @@ export const ActionType = {
   ROOMS_LOAD_FAILED: 'ROOMS_LOAD_FAILED',
 
   ROOM_CREATE: 'ROOM_CREATE',
+  ROOM_CREATED: 'ROOM_CREATED',
   ROOM_OPENED: 'ROOM_OPENED',
   ROOM_JOIN: 'ROOM_JOIN'
 };
@@ -64,3 +65,6 @@ export const createRoom = (
     isPublic: boolean = false
   ) =>
     createAction(ActionType.ROOM_CREATE, { title, isPublic });
+
+export const roomCreated = (room: Room) =>
+  createAction(ActionType.ROOM_CREATED, room);

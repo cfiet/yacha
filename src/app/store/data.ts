@@ -13,8 +13,8 @@ export interface Post {
 
 export interface RoomHeader {
   readonly title: string;
-  readonly createdAt: number;
-  readonly public: boolean;
+  readonly createdAt: number|Object;
+  readonly isPublic: boolean;
 }
 
 export interface Room extends RoomHeader {
